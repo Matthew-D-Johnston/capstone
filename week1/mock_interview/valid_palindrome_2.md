@@ -98,5 +98,47 @@ Output: true
 #### Code
 
 ```go
+func validPalindrome(s string) bool {
+	start := 0
+	end := len(s) - 1
+	deletionRemaining := true
+
+	for start <= end {
+		if s[start] == s[end] {
+			start++
+			end--
+		} else {
+			if deletionRemaining {
+				if checkPalindrome(s[start+1 : end+1]) {
+					return checkPalindrome(s[start+1 : end+1])
+				} else if checkPalindrome(s[start:end]) {
+					return checkPalindrome(s[start:end])
+				} else {
+					return false
+				}
+			} else {
+				return false
+			}
+		}
+	}
+
+	return true
+}
+
+func checkPalindrome(s string) bool {
+	start := 0
+	end := len(s) - 1
+
+	for start < end {
+		if s[start] == s[end] {
+			start++
+			end--
+		} else {
+			return false
+		}
+	}
+
+	return true
+}
 ```
 
