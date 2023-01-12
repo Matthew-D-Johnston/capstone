@@ -37,11 +37,8 @@ import (
 
 func getNextElement(s string, index int) (string, int) {
 	a, r := index, index+1
-	// fmt.Println(a, r)
 
 	for r < len(s) {
-		// fmt.Println(a, r)
-
 		if string(s[r]) >= "0" && string(s[r]) <= "9" {
 			r++
 			continue
@@ -51,7 +48,6 @@ func getNextElement(s string, index int) (string, int) {
 	}
 
 	s, index = s[a:r], (r-a)+index
-	// fmt.Println(s, index)
 	return s, index
 }
 
@@ -114,7 +110,6 @@ func calculate(s string) int {
 		}
 	}
 
-	// fmt.Println(stack)
 	return total
 }
 
