@@ -32,14 +32,15 @@ Alogrithm:
 import (
 	"fmt"
 	"strconv"
+	"strings"
 )
 
 func getNextElement(s string, index int) (string, int) {
 	a, r := index, index+1
-	fmt.Println(a, r)
+	// fmt.Println(a, r)
 
 	for r < len(s) {
-		fmt.Println(a, r)
+		// fmt.Println(a, r)
 
 		if string(s[r]) >= "0" && string(s[r]) <= "9" {
 			r++
@@ -57,6 +58,9 @@ func getNextElement(s string, index int) (string, int) {
 func calculate(s string) int {
 	stack := make([]string, 0)
 
+	temp := strings.Split(s, " ")
+	s = strings.Join(temp, "")
+
 	for idx := 0; idx < len(s); idx++ {
 		char := string(s[idx])
 		switch {
@@ -68,7 +72,6 @@ func calculate(s string) int {
 			lastElement, _ := strconv.Atoi(string(stack[len(stack)-1]))
 			nextElement, nextIndex := getNextElement(s, idx+1)
 			nextElementInt, _ := strconv.Atoi(nextElement)
-			// fmt.Println(lastElement, nextElement, nextIndex, nextElementInt)
 
 			var result int
 			if char == "*" {
@@ -92,25 +95,31 @@ func calculate(s string) int {
 			} else {
 				stack = append(stack, char)
 			}
-			// lastElement := stack[len(stack)-1]
-
-			// if lastElement != "+" && lastElement != "-" {
-			// 	lastElement += char
-			// 	stack[len(stack)-1] = lastElement
-			// } else {
-			// 	stack = append(stack, char)
-			// }
 		}
 
 	}
-	// fmt.Println(string(stack[0]))
-	fmt.Println(stack)
-	return 0
+
+	total, _ := strconv.Atoi(stack[0])
+
+	for idx := 1; idx < len(stack); idx += 2 {
+		elem := stack[idx]
+		nextElem, _ := strconv.Atoi(stack[idx+1])
+
+		if elem == "+" {
+			total += nextElem
+		}
+
+		if elem == "-" {
+			total -= nextElem
+		}
+	}
+
+	// fmt.Println(stack)
+	return total
 }
 
 func main() {
-	fmt.Println(calculate("32+10/2-5") == 7)
-
-	// fmt.Println(calculate(" 3/2 ") == 1)
-	// fmt.Println(calculate(" 3+5 / 2 ") == 5)
+	fmt.Println(calculate("32+10/2-5") == 32)
+	fmt.Println(calculate(" 3/2 ") == 1)
+	fmt.Println(calculate(" 3+5 / 2 ") == 5)
 }
